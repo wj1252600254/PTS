@@ -52,3 +52,6 @@ alternatives varchar(256),
 sideEffect varchar(256)
 );
 insert into Drug values('999','Bao','AMoXiLin,KuaiKe','Bad!'),('AMoXiLin','He','KuaiKe','Very Bad!!!'),('KuaiKe','He','AMoXiLin','Very Bad!!!'),('TouBao','He','','Ok');
+
+
+

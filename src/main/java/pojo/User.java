@@ -1,8 +1,6 @@
 package pojo;
 
 
-
-
 import utils.Utils;
 
 import java.util.ArrayList;
@@ -16,10 +14,10 @@ public class User extends Person {
 
     @Override
     public String toString() {
-        return "User{" +
+        return super.toString() + "User{" +
                 "birthday=" + birthday +
                 ", insuranceCompany='" + insuranceCompany + '\'' +
-                ", insuranceNumber=" + insuranceNumber +
+                ", insuranceNumber='" + insuranceNumber + '\'' +
                 ", history=" + history +
                 '}';
     }
@@ -43,11 +41,12 @@ public class User extends Person {
 
     /**
      * 删除处方
+     *
      * @param prescription
      * @return
      */
     public boolean removeHistory(Prescription prescription) {
-       return history.remove(prescription);
+        return history.remove(prescription);
     }
 
     /**

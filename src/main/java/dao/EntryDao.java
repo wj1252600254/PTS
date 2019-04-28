@@ -1,7 +1,6 @@
 package dao;
 
-
-import pojo.PrescriptionEntry;
+import pojo.Entry;
 import utils.Utils;
 
 import java.sql.Connection;
@@ -10,10 +9,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class PrescriptionEntryDao extends Dao {
-    @Override
-    public Object selectOne(String sql, String primaryKey) {
-        PrescriptionEntry prescriptionEntry = null;
+public class EntryDao {
+
+
+    public ArrayList<Entry> selectEntry(String sql, String primaryKey) {
+        ArrayList<Entry> arrayList = new ArrayList<>();
         Connection connection = null;
         ResultSet resultSet = null;
         PreparedStatement preparedStatement = null;
@@ -22,17 +22,12 @@ public class PrescriptionEntryDao extends Dao {
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, primaryKey);
             resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                String phonenumber = resultSet.getString(1);
-                int id = resultSet.getInt(2);
-                String drug_name = resultSet.getString(3);
-
-                /*
-                如果将PrescriptionEntry的成员改成String格式，写代码会简单很多，但在类图上的关系就显示不出来了。
-                 */
-
-
-
+            while (resultSet.next()) {
+                String n = resultSet.getString(1);
+                int num = resultSet.getInt(2);
+                String drug = resultSet.getString(3);
+                Entry entry = new Entry(n, num, drug);
+                arrayList.add(entry);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -41,13 +36,7 @@ public class PrescriptionEntryDao extends Dao {
             Utils.close(preparedStatement);
             Utils.close(connection);
         }
-        return prescriptionEntry;
+        return arrayList;
     }
-
-    @Override
-    public ArrayList<? extends Object> selectAll(String sql) {
-        return null;
-    }
-
 
 }

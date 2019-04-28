@@ -10,6 +10,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class PharmacistDao extends Dao {
+
+
     @Override
     public Object selectOne(String sql, String primaryKey) {
         Pharmacist pharmacist = null;

@@ -1,8 +1,6 @@
 package pojo;
 
 
-
-
 import utils.Utils;
 
 import java.util.*;
@@ -53,6 +51,7 @@ public class Prescription {
      * 显示处方信息
      */
     public void display() {
+        System.out.println("*+*+*+*+*+*+*+**+*+*+*+*+*+*+*+*+*+*+*");
         System.out.println("处方单信息");
         System.out.println("处方ID号：" + this.getId());
         System.out.println("开处方的医师姓名和电话：" + this.getPharmacist());
@@ -60,17 +59,16 @@ public class Prescription {
         System.out.println("处方终止日期：" + this.getEnd());
         System.out.println("再次给药次数：" + this.getNumber());
         System.out.println("======================");
-//        System.out.println("用药量");
-//        Iterator<Map.Entry<Drug, Integer>> iterator = drufNumber.entrySet().iterator();
-//        while (iterator.hasNext()) {
-//            Map.Entry<Drug, Integer> entry = iterator.next();
-//            System.out.println("药物：" + entry.getKey() + "     " + "用量：" + entry.getValue());
-//        }
-//        System.out.println("======================");
-//        System.out.println("副作用");
-//        for (Drug drug : drugs) {
-//            System.out.println(drug.getSideEffect());
-//        }
+        System.out.println("药物及用药量");
+        for (PrescriptionEntry t : this.getEntrys()) {
+            System.out.println("药物：" + t.getDrug().getName() + '\t' + "用药量：" + t.getNumber() + t.getDrug().getUnit());
+        }
+        System.out.println("======================");
+        System.out.println("副作用");
+        for (PrescriptionEntry t : this.getEntrys()) {
+            System.out.println(t.getDrug().getName() + "副作用：" + t.getDrug().getSideEffect());
+        }
+        System.out.println("*+*+*+*+*+*+*+**+*+*+*+*+*+*+*+*+*+*+*");
     }
 
     public String getId() {

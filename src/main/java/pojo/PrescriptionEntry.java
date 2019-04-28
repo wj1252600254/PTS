@@ -6,7 +6,6 @@ public class PrescriptionEntry {
     private Drug drug;
 
 
-
     public PrescriptionEntry(int number, Prescription prescription, Drug drug) {
         this.setNumber(number);
         this.setPrescription(prescription);
@@ -50,5 +49,13 @@ public class PrescriptionEntry {
 
     public void setDrug(Drug drug) {
         this.drug = drug;
+    }
+
+    @Override
+    public String toString() {
+        return "PrescriptionEntry{" +
+                "number=" + number +
+                ", drug=" + drug +
+                '}';
     }
 }

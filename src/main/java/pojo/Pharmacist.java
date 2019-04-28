@@ -8,6 +8,6 @@ public class Pharmacist extends Person {
 
     @Override
     public String toString() {
-        return "Pharmacist：" + "姓名：" + this.getName() + "   " + "电话" + this.getPhoneNumber();
+        return "药剂师姓名：" + this.getName() + "   " + "电话:" + this.getPhoneNumber();
     }
 }
