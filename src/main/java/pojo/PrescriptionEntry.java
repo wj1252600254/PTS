@@ -11,7 +11,7 @@ public class PrescriptionEntry {
         this.setNumber(number);
         this.setPrescription(prescription);
         this.setDrug(drug);
-        prescription.addEntry(this);
+        prescription.addEntry(this);  //构造时自动添加
     }
 
     /**

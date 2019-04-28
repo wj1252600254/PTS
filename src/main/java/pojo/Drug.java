@@ -7,8 +7,12 @@ import java.util.Objects;
 public class Drug {
     private String name;
     private String unit;
-    private ArrayList<Drug> alternatives;
+    private ArrayList<String> alternatives;  //将ArrayList<Drug>修改为ArrayList<String>
     private String sideEffect;
+
+    public Drug() {
+
+    }
 
     public Drug(String name, String unit, String sideEffect) {
         this.setName(name);
@@ -31,7 +35,7 @@ public class Drug {
      *
      * @param drug 药物
      */
-    public void addAlterDrug(Drug drug) {
+    public void addAlterDrug(String drug) {
         if (alternatives.contains(drug)) {
             System.out.println("已有此药物");
         } else {
@@ -41,7 +45,8 @@ public class Drug {
 
     /**
      * 删除代替药物
-     * @param drug   药物
+     *
+     * @param drug 药物
      * @return
      */
     public boolean removeAlterDrug(Drug drug) {
@@ -53,7 +58,7 @@ public class Drug {
      */
     public void dispay() {
         if (hasAlternatives()) {
-            for (Drug drug : alternatives) {
+            for (String drug : alternatives) {
                 System.out.println(drug);
             }
         } else {
@@ -77,11 +82,11 @@ public class Drug {
         this.unit = unit;
     }
 
-    public ArrayList<Drug> getAlternatives() {
+    public ArrayList<String> getAlternatives() {
         return alternatives;
     }
 
-    public void setAlternatives(ArrayList<Drug> alternatives) {
+    public void setAlternatives(ArrayList<String> alternatives) {
         this.alternatives = alternatives;
     }
 
@@ -110,6 +115,9 @@ public class Drug {
     public String toString() {
         return "Drug{" +
                 "name='" + name + '\'' +
+                ", unit='" + unit + '\'' +
+                ", alternatives=" + alternatives +
+                ", sideEffect='" + sideEffect + '\'' +
                 '}';
     }
 }
