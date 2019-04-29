@@ -1,14 +1,10 @@
 package PTS;
 
-
-
-
-import service.Service;
-
+import view.Login;
 
 
 public class PTS {
     public static void main(String[] args) {
-        Service.dispalyIsValid("A1");
+        new Login().init();
     }
 }

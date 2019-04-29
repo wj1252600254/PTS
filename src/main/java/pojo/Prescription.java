@@ -50,25 +50,26 @@ public class Prescription {
     /**
      * 显示处方信息
      */
-    public void display() {
-        System.out.println("*+*+*+*+*+*+*+**+*+*+*+*+*+*+*+*+*+*+*");
-        System.out.println("处方单信息");
-        System.out.println("处方ID号：" + this.getId());
-        System.out.println("开处方的医师姓名和电话：" + this.getPharmacist());
-        System.out.println("处方日期：" + this.getStart());
-        System.out.println("处方终止日期：" + this.getEnd());
-        System.out.println("再次给药次数：" + this.getNumber());
-        System.out.println("======================");
-        System.out.println("药物及用药量");
+    public String display() {
+        String s = "*+*+*+*+*+*+*+**+*+*+*+*+*+*+*+*+*+*+*" + System.getProperty("line.separator") +
+                "处方单信息" +
+                "处方ID号：" + this.getId() + System.getProperty("line.separator") +
+                "开处方的医师姓名和电话：" + this.getPharmacist() + System.getProperty("line.separator") +
+                "处方日期：" + this.getStart() + System.getProperty("line.separator") +
+                "处方终止日期：" + this.getEnd() + System.getProperty("line.separator") +
+                "再次给药次数：" + this.getNumber() + System.getProperty("line.separator") +
+                "======================" + System.getProperty("line.separator") +
+                "药物及用药量" + System.getProperty("line.separator");
         for (PrescriptionEntry t : this.getEntrys()) {
-            System.out.println("药物：" + t.getDrug().getName() + '\t' + "用药量：" + t.getNumber() + t.getDrug().getUnit());
+            s += "药物：" + t.getDrug().getName() + '\t' + "用药量：" + t.getNumber() + t.getDrug().getUnit() + System.getProperty("line.separator");
         }
-        System.out.println("======================");
-        System.out.println("副作用");
+        s += "======================" + System.getProperty("line.separator") +
+                "副作用" + System.getProperty("line.separator");
         for (PrescriptionEntry t : this.getEntrys()) {
-            System.out.println(t.getDrug().getName() + "副作用：" + t.getDrug().getSideEffect());
+            s += t.getDrug().getName() + "副作用：" + t.getDrug().getSideEffect() + System.getProperty("line.separator");
         }
-        System.out.println("*+*+*+*+*+*+*+**+*+*+*+*+*+*+*+*+*+*+*");
+        s += "*+*+*+*+*+*+*+**+*+*+*+*+*+*+*+*+*+*+*";
+        return s;
     }
 
     public String getId() {
