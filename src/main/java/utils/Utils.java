@@ -127,7 +127,7 @@ public class Utils {
 
 
     /**
-     * 关闭继承Closeable
+     * 关闭继承Closeable的类
      * @param args
      */
     public static void close(Closeable... args) {

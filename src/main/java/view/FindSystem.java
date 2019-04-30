@@ -1,15 +1,10 @@
 package view;
 
-import dao.DrugDao;
-import dao.UserDao;
-import pojo.Drug;
-import pojo.User;
 import service.Service;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.ArrayList;
 
 public class FindSystem {
     private JFrame frame;
@@ -26,15 +21,13 @@ public class FindSystem {
     private JButton jButton3;
     private JList<String> jList1;
     private JList<String> jList2;
-    private DefaultListModel<String> model1;
-    private DefaultListModel<String> model2;
     private JTextArea jTextArea;
     private JScrollPane scrollPane;
     private String content;
 
 
-    public void show() {
-        frame = new JFrame("PTS");
+    public void show(DefaultListModel model1, DefaultListModel model2) {
+        frame = new JFrame("查询系统");
         Container container = frame.getContentPane();
 
 
@@ -63,29 +56,21 @@ public class FindSystem {
 
 
         //Jpanel.North   1
-        jLabel = new JLabel("PTS系统", JLabel.CENTER);
+        jLabel = new JLabel("查询系统", JLabel.CENTER);
         jPanel1.add(jLabel);
 
         //Jpanel.WEST   2
         jLabe2 = new JLabel("系统已存用户电话", JLabel.CENTER);
         jPanel2.add(jLabe2, BorderLayout.NORTH);
-        model1 = new DefaultListModel<>();
-        ArrayList<? extends Object> arrayList = new UserDao().selectAll("select * from User");
-        for (Object t : arrayList) {
-            model1.addElement(((User) t).getPhoneNumber());
-        }
         jList1 = new JList<>(model1);
+        jList1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);   //只能单选
         jPanel2.add(jList1);
 
         //Jpanel.EAST   3
         jLabe3 = new JLabel("系统已存药物", JLabel.CENTER);
         jPanel3.add(jLabe3, BorderLayout.NORTH);
-        model2 = new DefaultListModel<>();
-        ArrayList<? extends Object> arrayList2 = new DrugDao().selectAll("select * from Drug");
-        for (Object t : arrayList2) {
-            model2.addElement(((Drug) t).getName());
-        }
         jList2 = new JList<>(model2);
+        jList2.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         jPanel3.add(jList2);
 
         //Jpanel.CENTER   5
@@ -95,6 +80,30 @@ public class FindSystem {
         jPanel5.add(jButton1);
         jPanel5.add(jButton2);
         jPanel5.add(jButton3);
+
+
+        //给jlist增加监听器
+        jList1.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int count = e.getClickCount();
+                if (count == 2) {
+                    content = jList1.getSelectedValue();
+                    jTextArea.setText(Service.displayUser(content));
+                }
+            }
+        });
+
+        jList2.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int count = e.getClickCount();
+                if (count == 2) {
+                    content = jList2.getSelectedValue();
+                    jTextArea.setText(Service.displayDrug(content));
+                }
+            }
+        });
 
 
         //给按钮添加监听器
@@ -124,8 +133,7 @@ public class FindSystem {
                     @Override
                     public void mousePressed(MouseEvent e) {
                         content = jTextField.getText();
-                        String dispaly = Service.displayPrescription(content);
-                        jTextArea.setText(dispaly);
+                        jTextArea.setText(Service.displayPrescription(content));
                     }
                 });
                 container1.add(jTextField, BorderLayout.NORTH);
@@ -156,8 +164,7 @@ public class FindSystem {
                     @Override
                     public void mousePressed(MouseEvent e) {
                         content = jTextField.getText();
-                        String dispaly = Service.findAlternatives(content);
-                        jTextArea.setText(dispaly);
+                        jTextArea.setText(Service.displayPrescription(content));
                     }
                 });
                 container1.add(jTextField, BorderLayout.NORTH);
@@ -191,8 +198,7 @@ public class FindSystem {
                     @Override
                     public void mousePressed(MouseEvent e) {
                         content = jTextField.getText();
-                        String dispaly = Service.dispalyIsValid(content);
-                        jTextArea.setText(dispaly);
+                        jTextArea.setText(Service.displayPrescription(content));
                     }
                 });
                 container1.add(jTextField, BorderLayout.NORTH);

@@ -41,6 +41,7 @@ start varchar(12),
 end varchar(12),
 number int
 );
+alter table Prescription add foreign key(phonenumber_user) references User(phonenumber) on delete cascade;
 insert into Prescription values('A1','111','110','2019-4-27','2019-5-1',2),('B1','111','119','2018-4-27','2018-7-1',0),('B2','222','120','2019-4-22','2019-4-26',2),('A2','333','120','2019-4-22','2019-6-3',0);
 insert into Prescription values('C','111','110','2019-4-27','2019-5-3',2);
 
@@ -53,5 +54,16 @@ sideEffect varchar(256)
 );
 insert into Drug values('999','Bao','AMoXiLin,KuaiKe','Bad!'),('AMoXiLin','He','KuaiKe','Very Bad!!!'),('KuaiKe','He','AMoXiLin','Very Bad!!!'),('TouBao','He','','Ok');
 
+//使得表支持中文
+alter table Drug convert to character set utf8;
+alter table User convert to character set utf8;
+alter table Pharmacist convert to character set utf8;
+alter table Prescription convert to character set utf8;
+alter table PrescriptionEntry convert to character set utf8;
+外键名：  PrescriptionEntry_ibfk_1
+//删除外键
+alter table PrescriptionEntry drop foreign key PrescriptionEntry_ibfk_1;
 
 
+//给处方明细增加主键
+alter table PrescriptionEntry add primary key(pre_id,drug_name);

@@ -29,7 +29,7 @@ public class UserDao extends Dao {
                 String birthday = resultSet.getString(3);
                 String insuranceCompany = resultSet.getString(4);
                 String insurranceNumber = resultSet.getString(5);
-                user = new User(phonenumber, name, birthday, insuranceCompany, insurranceNumber);
+                user = new User(name, phonenumber, birthday, insuranceCompany, insurranceNumber);
                 ArrayList<Prescription> arrayList = PrescriptionDao.selectByPhoneNumber("select * from Prescription where phonenumber_user=?", phonenumber);
                 for (Prescription t : arrayList) {
                     user.addHistory(t);

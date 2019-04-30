@@ -121,16 +121,10 @@ public class Prescription {
         this.entrys = entrys;
     }
 
-
     @Override
     public String toString() {
         return "Prescription{" +
                 "id='" + id + '\'' +
-                ", pharmacist=" + pharmacist +
-                ", start=" + start +
-                ", end=" + end +
-                ", number=" + number +
-                ", entrys=" + entrys +
                 '}';
     }
 

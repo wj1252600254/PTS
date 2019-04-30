@@ -1,31 +1,50 @@
 package view;
 
+import dao.DrugDao;
+import dao.UserDao;
+import pojo.Drug;
+import pojo.User;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class Login {
     private JFrame frame;
     private JButton jButton1;
     private JButton jButton2;
 
+    private DefaultListModel<String> model1;
+    private DefaultListModel<String> model2;
+
     public void init() {
+        model1 = new DefaultListModel<>();
+        ArrayList<? extends Object> arrayList = new UserDao().selectAll("select * from User");
+        for (Object t : arrayList) {
+            model1.addElement(((User) t).getPhoneNumber());
+        }
+        model2 = new DefaultListModel<>();
+        ArrayList<? extends Object> arrayList2 = new DrugDao().selectAll("select * from Drug");
+        for (Object t : arrayList2) {
+            model2.addElement(((Drug) t).getName());
+        }
         frame = new JFrame("PTS系统");
         Container container = frame.getContentPane();
         container.setLayout(new GridLayout(2, 1));
-        jButton1 = new JButton("查询系统（药剂师、用户均可使用）");
+        jButton1 = new JButton("查询系统");
         jButton1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new FindSystem().show();
+                new FindSystem().show(model1, model2);
             }
         });
         jButton2 = new JButton("数据库管理系统");
         jButton2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new DBManagerSystem().manage();
+                new DBManagerSystem().show(model1, model2);
             }
         });
         container.add(jButton1);

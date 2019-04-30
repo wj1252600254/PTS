@@ -49,13 +49,6 @@ public class User extends Person {
         return history.remove(prescription);
     }
 
-    /**
-     * 只显示报单号
-     */
-    public void display() {
-        System.out.println(history);
-    }
-
     public Date getBirthday() {
         return birthday;
     }
