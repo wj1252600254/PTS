@@ -132,7 +132,7 @@ public class FindSystem {
                 jButton.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mousePressed(MouseEvent e) {
-                        content = jTextField.getText();
+                        content = jTextField.getText().trim();
                         jTextArea.setText(Service.displayPrescription(content));
                     }
                 });
@@ -163,8 +163,8 @@ public class FindSystem {
                 jButton.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mousePressed(MouseEvent e) {
-                        content = jTextField.getText();
-                        jTextArea.setText(Service.displayPrescription(content));
+                        content = jTextField.getText().trim();
+                        jTextArea.setText(Service.findAlternatives(content));
                     }
                 });
                 container1.add(jTextField, BorderLayout.NORTH);
@@ -197,8 +197,8 @@ public class FindSystem {
                 jButton.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mousePressed(MouseEvent e) {
-                        content = jTextField.getText();
-                        jTextArea.setText(Service.displayPrescription(content));
+                        content = jTextField.getText().trim();
+                        jTextArea.setText(Service.dispalyIsValid(content));
                     }
                 });
                 container1.add(jTextField, BorderLayout.NORTH);
