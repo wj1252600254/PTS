@@ -73,7 +73,7 @@ public class Service {
                     "用户生日：" + user.getBirthday() + System.getProperty("line.separator") +
                     "用户保险公司：" + user.getInsuranceCompany() + System.getProperty("line.separator") +
                     "用户保险单号：" + user.getInsuranceNumber() + System.getProperty("line.separator") +
-                    "用户处方历史单号：" + user.getHistory();
+                    "用户历史处方单号：" + user.getHistory();
         } else {
             return "不存在该用户";
         }

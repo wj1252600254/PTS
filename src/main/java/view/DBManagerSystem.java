@@ -415,7 +415,7 @@ public class DBManagerSystem {
                 jPanelUp.add(j2);
                 JPanel j3 = new JPanel();
                 JLabel jl3 = new JLabel("替代药物：");
-                JTextField jt3 = new JTextField();
+                JTextField jt3 = new JTextField("有多种替代药物，请用半角逗号隔开");
                 jt3.setPreferredSize(new Dimension(250, 30));
                 j3.add(jl3);
                 j3.add(jt3);
