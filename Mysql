@@ -8,8 +8,6 @@ insuranceCompany varchar(16),
 insuranceNumber varchar(16)
 );
 
-//插入用户数据
-insert into User(phonenumber,name,birthday,insuranceCompany,insuranceNumber) values('111','ZhangSan','1999-1-1','ZGRS','ZG1'),('333','WangWu','2000-4-21','TPYRS','TPY1'),('222','Lisi','1998-6-1','HXRS','HX1');
 
 
 //创建药剂师表
@@ -17,7 +15,7 @@ create table Pharmacist(
 phonenumber varchar(16) primary key,
 name varchar(16)
 );
-insert into Pharmacist values('110','BianQue'),('119','HuaTuo'),('120','LiShiZhen');
+
 
 
 
@@ -29,9 +27,6 @@ drug_name varchar(16)
 );
 alter table PrescriptionEntry add foreign key(pre_id) references Prescription(id) on delete cascade;
 
-insert into PrescriptionEntry values('A1',2,'999'),('A1',3,'AMoXiLin'),('B1',2,'999'),('B2',1,'KuaiKe'),('B2',4,'TouBao');
-insert into PrescriptionEntry values('C',3,'999');
-
 //创建处方表
 create table Prescription(
 id varchar(16) primary key,
@@ -42,8 +37,7 @@ end varchar(12),
 number int
 );
 alter table Prescription add foreign key(phonenumber_user) references User(phonenumber) on delete cascade;
-insert into Prescription values('A1','111','110','2019-4-27','2019-5-1',2),('B1','111','119','2018-4-27','2018-7-1',0),('B2','222','120','2019-4-22','2019-4-26',2),('A2','333','120','2019-4-22','2019-6-3',0);
-insert into Prescription values('C','111','110','2019-4-27','2019-5-3',2);
+
 
 //创建药物表
 create table Drug(
@@ -52,7 +46,7 @@ unit varchar(8),
 alternatives varchar(256),
 sideEffect varchar(256)
 );
-insert into Drug values('999','Bao','AMoXiLin,KuaiKe','Bad!'),('AMoXiLin','He','KuaiKe','Very Bad!!!'),('KuaiKe','He','AMoXiLin','Very Bad!!!'),('TouBao','He','','Ok');
+
 
 //使得表支持中文
 alter table Drug convert to character set utf8;
