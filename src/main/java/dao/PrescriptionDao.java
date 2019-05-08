@@ -1,6 +1,7 @@
 package dao;
 
-import pojo.*;
+
+import com.google.auto.service.AutoService;
 import utils.Utils;
 
 import java.sql.Connection;
@@ -9,38 +10,37 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+
+@AutoService(Dao.class)
 public class PrescriptionDao extends Dao {
     /**
      * 查询语局格式
-     *
      * @param sql
-     * @param primaryKey
+     * @param args
      * @return
      */
     @Override
-    public Object selectOne(String sql, String primaryKey) {
-        Prescription prescription = null;
+    public PrescriptionDO queryObject(String sql, Object... args) {
+        PrescriptionDO prescription = null;
         Connection connection = null;
         ResultSet resultSet = null;
         PreparedStatement preparedStatement = null;
         try {
             connection = Utils.getConnection();
             preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, primaryKey);
+            for (int i = 0; i < args.length; i++) {
+                System.out.println(args[i]);
+                preparedStatement.setObject(i + 1, args[i]);
+            }
             resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 String id = resultSet.getString(1);
+                String phonenumber_user = resultSet.getString(2);
                 String phonenumber_phr = resultSet.getString(3);
                 String start = resultSet.getString(4);
                 String end = resultSet.getString(5);
                 int num = resultSet.getInt(6);
-                Pharmacist pharmacist = (Pharmacist) new PharmacistDao().selectOne("select * from Pharmacist where phonenumber=?", phonenumber_phr);
-                prescription = new Prescription(id, start, end, num, pharmacist);
-                ArrayList<Entry> entrylist = new EntryDao().selectEntry("select * from PrescriptionEntry where pre_id=?", id);
-                for (Entry t : entrylist) {
-                    Drug drug = (Drug) new DrugDao().selectOne("select * from Drug where name =?", t.getDrugName());
-                    new PrescriptionEntry(t.getNum(), prescription, drug);
-                }
+                prescription = new PrescriptionDO(id, phonenumber_user, phonenumber_user, start, end, num);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -53,28 +53,26 @@ public class PrescriptionDao extends Dao {
     }
 
     @Override
-    public ArrayList<? extends Object> selectAll(String sql) {
-        ArrayList<Prescription> prescriptionArrayList = new ArrayList<>();
+    public ArrayList<PrescriptionDO> queryObjectList(String sql, Object... args) {
+        ArrayList<PrescriptionDO> prescriptionArrayList = new ArrayList<>();
         Connection connection = null;
         ResultSet resultSet = null;
         PreparedStatement preparedStatement = null;
         try {
             connection = Utils.getConnection();
             preparedStatement = connection.prepareStatement(sql);
+            for (int i = 0; i < args.length; i++) {
+                preparedStatement.setObject(i + 1, args[i]);
+            }
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 String id = resultSet.getString(1);
+                String phonenumber_user = resultSet.getString(2);
                 String phonenumber_phr = resultSet.getString(3);
                 String start = resultSet.getString(4);
                 String end = resultSet.getString(5);
                 int num = resultSet.getInt(6);
-                Pharmacist pharmacist = (Pharmacist) new PharmacistDao().selectOne("select * from Pharmacist where phonenumber=?", phonenumber_phr);
-                Prescription prescription = new Prescription(id, start, end, num, pharmacist);
-                ArrayList<Entry> entrylist = new EntryDao().selectEntry("select * from PrescriptionEntry where pre_id=?", id);
-                for (Entry t : entrylist) {
-                    Drug drug = (Drug) new DrugDao().selectOne("select * from Drug where name =?", t.getDrugName());
-                    new PrescriptionEntry(t.getNum(), prescription, drug);
-                }
+                PrescriptionDO prescription = new PrescriptionDO(id, phonenumber_user, phonenumber_phr, start, end, num);
                 prescriptionArrayList.add(prescription);
             }
         } catch (SQLException e) {
@@ -95,8 +93,8 @@ public class PrescriptionDao extends Dao {
      * @param number
      * @return
      */
-    public static ArrayList<Prescription> selectByPhoneNumber(String sql, String number) {
-        ArrayList<Prescription> arrayList = new ArrayList<>();
+    public static ArrayList<PrescriptionDO> selectByPhoneNumber(String sql, String number) {
+        ArrayList<PrescriptionDO> arrayList = new ArrayList<>();
         Connection connection = null;
         ResultSet resultSet = null;
         PreparedStatement preparedStatement = null;
@@ -107,17 +105,12 @@ public class PrescriptionDao extends Dao {
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 String id = resultSet.getString(1);
+                String phonenumber_user = resultSet.getString(2);
                 String phonenumber_phr = resultSet.getString(3);
                 String start = resultSet.getString(4);
                 String end = resultSet.getString(5);
                 int num = resultSet.getInt(6);
-                Pharmacist pharmacist = (Pharmacist) new PharmacistDao().selectOne("select * from Pharmacist where phonenumber=?", phonenumber_phr);
-                Prescription prescription = new Prescription(id, start, end, num, pharmacist);
-                ArrayList<Entry> entrylist = new EntryDao().selectEntry("select * from PrescriptionEntry where pre_id=?", id);
-                for (Entry t : entrylist) {
-                    Drug drug = (Drug) new DrugDao().selectOne("select * from Drug where name =?", t.getDrugName());
-                    new PrescriptionEntry(t.getNum(), prescription, drug);
-                }
+                PrescriptionDO prescription = new PrescriptionDO(id, phonenumber_user, phonenumber_phr, start, end, num);
                 arrayList.add(prescription);
             }
         } catch (SQLException e) {

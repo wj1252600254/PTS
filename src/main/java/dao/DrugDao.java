@@ -1,6 +1,6 @@
 package dao;
 
-import pojo.Drug;
+import com.google.auto.service.AutoService;
 import utils.Utils;
 
 import java.sql.Connection;
@@ -9,32 +9,33 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+@AutoService(Dao.class)
 public class DrugDao extends Dao {
+
     /**
      * 查询单个Drug
      *
      * @param sql
-     * @param name
      * @return
      */
-    public Object selectOne(String sql, String name) {
-        Drug drug = null;
+    public DrugDO queryObject(String sql, Object... args) {
+        DrugDO drug = null;
         Connection connection = null;
         ResultSet resultSet = null;
         PreparedStatement preparedStatement = null;
         try {
             connection = Utils.getConnection();
             preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, name);
+            for (int i = 0; i < args.length; i++) {
+                preparedStatement.setObject(i + 1, args[i]);
+            }
             resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 String drugNmae = resultSet.getString(1);
                 String drugUnit = resultSet.getString(2);
-                String durga = resultSet.getString(3);
+                String durgAlternatives = resultSet.getString(3);
                 String sideEffe = resultSet.getString(4);
-                drug = new Drug(drugNmae, drugUnit, sideEffe);
-                ArrayList<String> arrayList = Utils.string2Array(durga, ",");
-                drug.setAlternatives(arrayList);
+                drug = new DrugDO(drugNmae, drugUnit, durgAlternatives, sideEffe);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -53,23 +54,27 @@ public class DrugDao extends Dao {
      * @return
      */
     @Override
-    public ArrayList<? extends Object> selectAll(String sql) {
+    public ArrayList<DrugDO> queryObjectList(String sql,Object ... args) {
         Connection connection = null;
         ResultSet resultSet = null;
         PreparedStatement preparedStatement = null;
-        ArrayList<Drug> arrayList = new ArrayList<>();
+        ArrayList<DrugDO> arrayList = new ArrayList<>();
         try {
             connection = Utils.getConnection();
             preparedStatement = connection.prepareStatement(sql);
+            for (int i = 0; i < args.length; i++) {
+                preparedStatement.setObject(i + 1, args[i]);
+            }
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 String drugNmae = resultSet.getString(1);
                 String drugUnit = resultSet.getString(2);
-                String durga = resultSet.getString(3);
+                String durgAlternatives = resultSet.getString(3);
                 String sideEffe = resultSet.getString(4);
-                Drug drug = new Drug(drugNmae, drugUnit, sideEffe);
-                ArrayList<String> arrayList1 = Utils.string2Array(durga, ",");
-                drug.setAlternatives(arrayList1);
+                /**
+                 * 转化为ArrayList在Service实现
+                 */
+                DrugDO drug = new DrugDO(drugNmae, drugUnit, durgAlternatives, sideEffe);
                 arrayList.add(drug);
             }
         } catch (SQLException e) {

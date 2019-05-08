@@ -1,9 +1,10 @@
 package view;
 
-import dao.DrugDao;
-import dao.UserDao;
-import pojo.Drug;
-import pojo.User;
+import domain.Drug;
+import domain.User;
+import service.DrugReadService;
+import service.ReadServiceFactory;
+import service.UserReadService;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,12 +22,12 @@ public class Login {
 
     public void init() {
         model1 = new DefaultListModel<>();
-        ArrayList<? extends Object> arrayList = new UserDao().selectAll("select * from User");
+        ArrayList<User> arrayList = ((UserReadService) ReadServiceFactory.getReadService(UserReadService.class)).queryAll();
         for (Object t : arrayList) {
             model1.addElement(((User) t).getPhoneNumber());
         }
         model2 = new DefaultListModel<>();
-        ArrayList<? extends Object> arrayList2 = new DrugDao().selectAll("select * from Drug");
+        ArrayList<Drug> arrayList2 = ((DrugReadService) ReadServiceFactory.getReadService(DrugReadService.class)).queryAll();
         for (Object t : arrayList2) {
             model2.addElement(((Drug) t).getName());
         }

@@ -1,6 +1,7 @@
 package dao;
 
-import pojo.Pharmacist;
+
+import com.google.auto.service.AutoService;
 import utils.Utils;
 
 import java.sql.Connection;
@@ -9,24 +10,26 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+@AutoService(Dao.class)
 public class PharmacistDao extends Dao {
 
 
     @Override
-    public Object selectOne(String sql, String primaryKey) {
-        Pharmacist pharmacist = null;
+    public PharmacistDO queryObject(String sql, Object... args) {
+        PharmacistDO pharmacist = null;
         Connection connection = null;
         ResultSet resultSet = null;
         PreparedStatement preparedStatement = null;
         try {
             connection = Utils.getConnection();
             preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, primaryKey);
+            for (int i = 0; i < args.length; i++) {
+                preparedStatement.setObject(i + 1, args[i]);
+            }
             resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 String phonenumber = resultSet.getString(2);
                 String name = resultSet.getString(1);
-                pharmacist = new Pharmacist(phonenumber, name);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -39,19 +42,22 @@ public class PharmacistDao extends Dao {
     }
 
     @Override
-    public ArrayList<? extends Object> selectAll(String sql) {
-        ArrayList<Pharmacist> arrayList = new ArrayList<>();
+    public ArrayList<PharmacistDO> queryObjectList(String sql, Object... args) {
+        ArrayList<PharmacistDO> arrayList = new ArrayList<>();
         Connection connection = null;
         ResultSet resultSet = null;
         PreparedStatement preparedStatement = null;
         try {
             connection = Utils.getConnection();
             preparedStatement = connection.prepareStatement(sql);
+            for (int i = 0; i < args.length; i++) {
+                preparedStatement.setObject(i + 1, args[i]);
+            }
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 String phonenumber = resultSet.getString(2);
                 String name = resultSet.getString(1);
-                Pharmacist pharmacist = new Pharmacist(phonenumber, name);
+                PharmacistDO pharmacist = new PharmacistDO(phonenumber, name);
                 arrayList.add(pharmacist);
             }
         } catch (SQLException e) {

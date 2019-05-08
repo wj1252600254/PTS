@@ -10,13 +10,13 @@ import java.util.ArrayList;
 
 public abstract class Dao {
     /**
-     * insert
+     * 添加记录
      *
      * @param sql
      * @param args
      * @return
      */
-    public boolean insertInfo(String sql, Object... args) {
+    public int insertInfo(String sql, Object... args) {
         int res = 0;
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -33,10 +33,28 @@ public abstract class Dao {
             Utils.close(preparedStatement);
             Utils.close(connection);
         }
-        return res > 0;
+        return res;
     }
 
-    public boolean delete(String sql, Object... args) {
+    /**
+     * 更新记录
+     *
+     * @param sql
+     * @param args
+     * @return
+     */
+    public int update(String sql, Object... args) {
+        return insertInfo(sql, args);
+    }
+
+    /**
+     * 删除记录
+     *
+     * @param sql
+     * @param args
+     * @return
+     */
+    public int delete(String sql, Object... args) {
         int res = 0;
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -53,13 +71,12 @@ public abstract class Dao {
             Utils.close(preparedStatement);
             Utils.close(connection);
         }
-        return res > 0;
+        return res;
     }
 
-    public abstract Object selectOne(String sql, String primaryKey);
+    public abstract Object queryObject(String sql, Object... args);
 
-    public abstract ArrayList<? extends Object> selectAll(String sql);
-
+    public abstract ArrayList<? extends Object> queryObjectList(String sql, Object... args);
 
 
 }
