@@ -1,47 +1,48 @@
 package service;
 
 import com.google.auto.service.AutoService;
+import dao.UserDao;
+import domain.User;
+import utils.Utils;
 
-@AutoService(WriteService.class)
-public class UserWriteService implements WriteService {
-
+//@AutoService(WriteService.class)
+public class UserWriteService implements WriteService<User> {
     @Override
-    public int deleteObject(String sql, Object... name) {
-
-        return ((WriteServiceImpl) WriteServiceFactory.getWriteService(WriteServiceImpl.class)).deleteObject(sql, name);
+    public int deleteObject(User object) {
+        return ((UserDao) app.getBean("usrdao")).delete("delete from User where phonenumber=?", object.getPhoneNumber());
     }
 
     @Override
-    public int updateObject(String sql, Object... name) {
-        return ((WriteServiceImpl) WriteServiceFactory.getWriteService(WriteServiceImpl.class)).updateObject(sql, name);
+    public int updateObject(User object) {
+        //暂时不实现
+//        return ((UserDao) app.getBean("usrdao")).update("update User set phonenumber=? where phonenumber=?", object.getPhoneNumber(),
+//                object.getName(), object.getBirthday(), object.getInsuranceNumber());
+        return 0;
     }
 
     @Override
-    public int insertObject(String sql, Object... name) {
-        return ((WriteServiceImpl) WriteServiceFactory.getWriteService(WriteServiceImpl.class)).insertObject(sql, name);
+    public int insertObject(User object) {
+        return ((UserDao) app.getBean("usrdao")).insertInfo("insert into User values(?,?,?,?,?)", object.getPhoneNumber(),
+                object.getName(), Utils.date2String(object.getBirthday()), object.getInsuranceCompany(), object.getInsuranceNumber());
     }
 
     /**
      * 添加用户
      *
-     * @param phone
-     * @param name
-     * @param birthday
-     * @param company
-     * @param number
+     * @param user
      * @return
      */
-    public int insertUser(String phone, String name, String birthday, String company, String number) {
-        return insertObject("insert into User values(?,?,?,?,?)", phone, name, birthday, company, number);
+    public int insertUser(User user) {
+        return insertObject(user);
     }
 
 
     /**
      * 删除用户
      *
-     * @param phone
+     * @param user
      */
-    public int deleteUser(String phone) {
-        return deleteObject("delete from User where phonenumber=?", phone);
+    public int deleteUser(User user) {
+        return deleteObject(user);
     }
 }

@@ -15,6 +15,8 @@ public class Prescription {
     private int number;
     private ArrayList<PrescriptionEntry> entrys;
 
+    public Prescription() {
+    }
 
     public Prescription(String id, String strat, String end, int num, Pharmacist pharmacist) {
         this.setId(id);

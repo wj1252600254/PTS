@@ -9,12 +9,12 @@ import domain.User;
 
 import java.util.ArrayList;
 
-@AutoService(ReadService.class)
+//@AutoService(ReadService.class)
 public class UserReadService implements ReadService {
     @Override
     public User queryObject(String sql, Object... args) {
-        PrescriptionReadService prescriptionService = (PrescriptionReadService) ReadServiceFactory.getReadService(PrescriptionReadService.class);
-        UserDao userDao = (UserDao) DaoFactory.getDao(UserDao.class);
+        PrescriptionReadService prescriptionService = (PrescriptionReadService) app.getBean("preres");
+        UserDao userDao = (UserDao) app.getBean("usrdao");
         UserDO userDO = userDao.queryObject(sql, args);
         if (userDO != null) {
             User user = new User(userDO.getName(), userDO.getPhonenumber(), userDO.getBirthday(), userDO.getInsuranceCompany(), userDO.getInsuranceNumber());
@@ -28,8 +28,8 @@ public class UserReadService implements ReadService {
     @Override
     public ArrayList<User> queryObjectList(String sql, Object... args) {
         ArrayList<User> arrayList = new ArrayList<>();
-        PrescriptionReadService prescriptionService = (PrescriptionReadService) ReadServiceFactory.getReadService(PrescriptionReadService.class);
-        UserDao userDao = (UserDao) DaoFactory.getDao(UserDao.class);
+        PrescriptionReadService prescriptionService = (PrescriptionReadService) app.getBean("preres");
+        UserDao userDao = (UserDao) app.getBean("usrdao");
         ArrayList<UserDO> userDOArrayList = userDao.queryObjectList(sql, args);
         if (userDOArrayList != null) {
             for (UserDO userDO : userDOArrayList) {

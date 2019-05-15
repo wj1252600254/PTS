@@ -11,8 +11,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 
-@AutoService(Dao.class)
-public class PrescriptionEntryDao extends Dao {
+//@AutoService(Dao.class)
+public class PrescriptionEntryDao implements Dao {
     @Override
     public PrescriptionEntryDO queryObject(String sql, Object... args) {
         PrescriptionEntryDO prescriptionEntryDO = null;

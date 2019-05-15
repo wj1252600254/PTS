@@ -9,11 +9,11 @@ import utils.Utils;
 
 import java.util.ArrayList;
 
-@AutoService(ReadService.class)
+//@AutoService(ReadService.class)
 public class DrugReadService implements ReadService {
     @Override
     public Drug queryObject(String sql, Object... name) {
-        DrugDao drugDao = (DrugDao) DaoFactory.getDao(DrugDao.class);
+        DrugDao drugDao = (DrugDao) app.getBean("drudao");
         DrugDO drugDO = drugDao.queryObject(sql, name);
         if (drugDO != null) {
             Drug drug = new Drug(drugDO.getName(), drugDO.getUnit(), drugDO.getSideEffect());
@@ -27,7 +27,7 @@ public class DrugReadService implements ReadService {
     @Override
     public ArrayList<Drug> queryObjectList(String sql, Object... args) {
         ArrayList<Drug> drugArrayList = new ArrayList<>();
-        DrugDao drugDao = (DrugDao) DaoFactory.getDao(DrugDao.class);
+        DrugDao drugDao = (DrugDao) app.getBean("drudao");
         ArrayList<DrugDO> arrayList = drugDao.queryObjectList(sql, args);
         if (arrayList != null) {
             for (DrugDO drugDO : arrayList) {

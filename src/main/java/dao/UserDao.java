@@ -11,8 +11,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 
-@AutoService(Dao.class)
-public class UserDao extends Dao {
+//@AutoService(Dao.class)
+public class UserDao implements Dao {
     @Override
     public UserDO queryObject(String sql, Object... args) {
         UserDO user = null;

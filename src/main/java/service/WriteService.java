@@ -1,9 +1,13 @@
 package service;
 
-public interface WriteService {
-    public int deleteObject(String sql, Object... name);
+import com.sjtu.factory.AppContainer;
 
-    public int updateObject(String sql, Object... name);
+public interface WriteService<T> extends Service {
 
-    public int insertObject(String sql, Object... name);
+
+    public int deleteObject(T object);
+
+    public int updateObject(T object);
+
+    public int insertObject(T object);
 }

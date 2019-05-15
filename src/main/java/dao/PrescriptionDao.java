@@ -11,8 +11,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 
-@AutoService(Dao.class)
-public class PrescriptionDao extends Dao {
+//@AutoService(Dao.class)
+public class PrescriptionDao implements Dao {
     /**
      * 查询语局格式
      * @param sql

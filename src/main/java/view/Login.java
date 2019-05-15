@@ -1,5 +1,6 @@
 package view;
 
+import com.sjtu.factory.AppContainer;
 import domain.Drug;
 import domain.User;
 import service.DrugReadService;
@@ -16,18 +17,20 @@ public class Login {
     private JFrame frame;
     private JButton jButton1;
     private JButton jButton2;
+    private AppContainer appContainer;
 
     private DefaultListModel<String> model1;
     private DefaultListModel<String> model2;
 
-    public void init() {
+    public void init(String filename) {
+        appContainer = new AppContainer(filename);
         model1 = new DefaultListModel<>();
-        ArrayList<User> arrayList = ((UserReadService) ReadServiceFactory.getReadService(UserReadService.class)).queryAll();
+        ArrayList<User> arrayList = ((UserReadService) appContainer.getBean("usrres")).queryAll();
         for (Object t : arrayList) {
             model1.addElement(((User) t).getPhoneNumber());
         }
         model2 = new DefaultListModel<>();
-        ArrayList<Drug> arrayList2 = ((DrugReadService) ReadServiceFactory.getReadService(DrugReadService.class)).queryAll();
+        ArrayList<Drug> arrayList2 = ((DrugReadService) appContainer.getBean("drures")).queryAll();
         for (Object t : arrayList2) {
             model2.addElement(((Drug) t).getName());
         }
@@ -38,14 +41,14 @@ public class Login {
         jButton1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new FindSystem().show(model1, model2);
+                new FindSystem().show(appContainer, model1, model2);
             }
         });
         jButton2 = new JButton("数据库管理系统");
         jButton2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new DBManagerSystem().show(model1, model2);
+                new DBManagerSystem().show(appContainer, model1, model2);
             }
         });
         container.add(jButton1);

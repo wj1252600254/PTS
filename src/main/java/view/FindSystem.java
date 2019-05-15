@@ -1,5 +1,6 @@
 package view;
 
+import com.sjtu.factory.AppContainer;
 import service.DrugReadService;
 import service.PrescriptionReadService;
 import service.ReadServiceFactory;
@@ -32,7 +33,7 @@ public class FindSystem {
     private String content;
 
 
-    public void show(DefaultListModel model1, DefaultListModel model2) {
+    public void show(AppContainer appContainer, DefaultListModel model1, DefaultListModel model2) {
         frame = new JFrame("查询系统");
         Container container = frame.getContentPane();
 
@@ -95,7 +96,7 @@ public class FindSystem {
                 int count = e.getClickCount();
                 if (count == 2) {
                     content = jList1.getSelectedValue();
-                    jTextArea.setText(((UserReadService) ReadServiceFactory.getReadService(UserReadService.class)).displayUser(content));
+                    jTextArea.setText(((UserReadService) appContainer.getBean("usrres")).displayUser(content));
                 }
             }
         });
@@ -106,7 +107,7 @@ public class FindSystem {
                 int count = e.getClickCount();
                 if (count == 2) {
                     content = jList2.getSelectedValue();
-                    jTextArea.setText(((DrugReadService) ReadServiceFactory.getReadService(DrugReadService.class)).dispalyDrug(content));
+                    jTextArea.setText(((DrugReadService) appContainer.getBean("drures")).dispalyDrug(content));
                 }
             }
         });
@@ -139,7 +140,7 @@ public class FindSystem {
                     @Override
                     public void mousePressed(MouseEvent e) {
                         content = jTextField.getText().trim();
-                        jTextArea.setText(((UserReadService) ReadServiceFactory.getReadService(UserReadService.class)).displayHistory(content));
+                        jTextArea.setText(((UserReadService) appContainer.getBean("usrres")).displayHistory(content));
                     }
                 });
                 container1.add(jTextField, BorderLayout.NORTH);
@@ -170,7 +171,7 @@ public class FindSystem {
                     @Override
                     public void mousePressed(MouseEvent e) {
                         content = jTextField.getText().trim();
-                        jTextArea.setText(((DrugReadService) ReadServiceFactory.getReadService(DrugReadService.class)).displayAlternatives(content));
+                        jTextArea.setText(((DrugReadService) appContainer.getBean("drures")).displayAlternatives(content));
                     }
                 });
                 container1.add(jTextField, BorderLayout.NORTH);
@@ -204,7 +205,7 @@ public class FindSystem {
                     @Override
                     public void mousePressed(MouseEvent e) {
                         content = jTextField.getText().trim();
-                        jTextArea.setText(((PrescriptionReadService) ReadServiceFactory.getReadService(PrescriptionReadService.class)).displayIsValid(content));
+                        jTextArea.setText(((PrescriptionReadService) appContainer.getBean("preres")).displayIsValid(content));
                     }
                 });
                 container1.add(jTextField, BorderLayout.NORTH);

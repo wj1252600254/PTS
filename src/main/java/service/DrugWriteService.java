@@ -1,46 +1,47 @@
 package service;
 
 import com.google.auto.service.AutoService;
+import dao.DrugDao;
+import domain.Drug;
+import domain.User;
+import utils.Utils;
 
-@AutoService(WriteService.class)
-public class DrugWriteService implements WriteService {
-
+//@AutoService(WriteService.class)
+public class DrugWriteService implements WriteService<Drug> {
     @Override
-    public int deleteObject(String sql, Object... name) {
-
-        return ((WriteServiceImpl) WriteServiceFactory.getWriteService(WriteServiceImpl.class)).deleteObject(sql, name);
+    public int deleteObject(Drug object) {
+        return ((DrugDao) app.getBean("drudao")).delete("delete from Drug where name=?", object.getName());
     }
 
     @Override
-    public int updateObject(String sql, Object... name) {
-        return ((WriteServiceImpl) WriteServiceFactory.getWriteService(WriteServiceImpl.class)).updateObject(sql, name);
+    public int updateObject(Drug object) {
+        return 0;
     }
 
     @Override
-    public int insertObject(String sql, Object... name) {
-        return ((WriteServiceImpl) WriteServiceFactory.getWriteService(WriteServiceImpl.class)).insertObject(sql, name);
+    public int insertObject(Drug object) {
+        return ((DrugDao) app.getBean("drudao")).insertInfo("insert into Drug values(?,?,?,?)", object.getName(),
+                object.getUnit(), Utils.Array2String(object.getAlternatives(), ","), object.getSideEffect());
     }
 
     /**
      * 增加药物
      *
-     * @param name
-     * @param unit
-     * @param alter
-     * @param sideE
+     * @param drug
      * @return
      */
-    public int insertDrug(String name, String unit, String alter, String sideE) {
-        return insertObject("insert into Drug values(?,?,?,?)", name, unit, alter, sideE);
+    public int insertDrug(Drug drug) {
+        return insertObject(drug);
     }
 
     /**
      * 删除药物
-     * @param name
+     *
+     * @param drug
      * @return
      */
-    public int deleteDrug(String name) {
-        return deleteObject("delete from Drug where name=?", name);
+    public int deleteDrug(Drug drug) {
+        return deleteObject(drug);
     }
 
 

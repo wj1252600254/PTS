@@ -10,22 +10,22 @@ import domain.PrescriptionEntry;
 import java.util.ArrayList;
 import java.util.Date;
 
-@AutoService(ReadService.class)
+//@AutoService(ReadService.class)
 public class PrescriptionReadService implements ReadService {
     @Override
     public Prescription queryObject(String sql, Object... args) {
-        PrescriptionDao prescriptionDao = (PrescriptionDao) DaoFactory.getDao(PrescriptionDao.class);
+        PrescriptionDao prescriptionDao = (PrescriptionDao) app.getBean("predao");
         PrescriptionDO prescriptionDO = prescriptionDao.queryObject(sql, args);
-        PrescriptionEntryDao prescriptionEntryDao = (PrescriptionEntryDao) DaoFactory.getDao(PrescriptionEntryDao.class);
+        PrescriptionEntryDao prescriptionEntryDao = (PrescriptionEntryDao) app.getBean("entdao");
         if (prescriptionDO != null) {
-            Pharmacist pharmacist = ((PharmacistReadService) ReadServiceFactory.getReadService(PharmacistReadService.class)).queryOne(prescriptionDO.getPhonenumberPhr());
+            Pharmacist pharmacist = ((PharmacistReadService) app.getBean("phrres")).queryOne(prescriptionDO.getPhonenumberPhr());
             Prescription prescription = new Prescription(prescriptionDO.getId(), prescriptionDO.getStart(), prescriptionDO.getEnd(),
                     prescriptionDO.getNumber(), pharmacist);
             //添加PrescriptionEntry
             ArrayList<PrescriptionEntryDO> prescriptionEntryDOS = prescriptionEntryDao.queryObjectList("select * from PrescriptionEntry where pre_id=?", prescriptionDO.getId());
             for (PrescriptionEntryDO prescriptionEntryDO : prescriptionEntryDOS) {
                 //获取Drug
-                Drug drug = ((DrugReadService) ReadServiceFactory.getReadService(DrugReadService.class)).queryOne(prescriptionEntryDO.getDrugName());
+                Drug drug = ((DrugReadService) app.getBean("drures")).queryOne(prescriptionEntryDO.getDrugName());
                 new PrescriptionEntry(prescriptionEntryDO.getNumber(), prescription, drug);
             }
             return prescription;
@@ -37,19 +37,19 @@ public class PrescriptionReadService implements ReadService {
     @Override
     public ArrayList<Prescription> queryObjectList(String sql, Object... args) {
         ArrayList<Prescription> arrayList = new ArrayList<>();
-        PrescriptionDao prescriptionDao = (PrescriptionDao) DaoFactory.getDao(PrescriptionDao.class);
+        PrescriptionDao prescriptionDao = (PrescriptionDao) app.getBean("predao");
         ArrayList<PrescriptionDO> prescriptionDOArrayList = prescriptionDao.queryObjectList(sql, args);
-        PrescriptionEntryDao prescriptionEntryDao = (PrescriptionEntryDao) DaoFactory.getDao(PrescriptionEntryDao.class);
+        PrescriptionEntryDao prescriptionEntryDao = (PrescriptionEntryDao) app.getBean("entdao");
         if (prescriptionDOArrayList != null) {
             for (PrescriptionDO prescriptionDO : prescriptionDOArrayList) {
-                Pharmacist pharmacist = ((PharmacistReadService) ReadServiceFactory.getReadService(PharmacistReadService.class)).queryOne(prescriptionDO.getPhonenumberPhr());
+                Pharmacist pharmacist = ((PharmacistReadService) app.getBean("phrres")).queryOne(prescriptionDO.getPhonenumberPhr());
                 Prescription prescription = new Prescription(prescriptionDO.getId(), prescriptionDO.getStart(), prescriptionDO.getEnd(),
                         prescriptionDO.getNumber(), pharmacist);
                 //添加PrescriptionEntry
                 ArrayList<PrescriptionEntryDO> prescriptionEntryDOS = prescriptionEntryDao.queryObjectList("select * from PrescriptionEntry where pre_id=?", prescriptionDO.getId());
                 for (PrescriptionEntryDO prescriptionEntryDO : prescriptionEntryDOS) {
                     //获取Drug
-                    Drug drug = ((DrugReadService) ReadServiceFactory.getReadService(DrugReadService.class)).queryOne(prescriptionEntryDO.getDrugName());
+                    Drug drug = ((DrugReadService) app.getBean("drures")).queryOne(prescriptionEntryDO.getDrugName());
                     new PrescriptionEntry(prescriptionEntryDO.getNumber(), prescription, drug);
                 }
                 arrayList.add(prescription);

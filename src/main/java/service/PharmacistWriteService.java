@@ -1,44 +1,47 @@
 package service;
 
 import com.google.auto.service.AutoService;
+import dao.PharmacistDao;
+import domain.Pharmacist;
 
-@AutoService(WriteService.class)
-public class PharmacistWriteService implements WriteService {
+//@AutoService(WriteService.class)
+public class PharmacistWriteService implements WriteService<Pharmacist> {
+
+
     @Override
-    public int deleteObject(String sql, Object... name) {
-
-        return ((WriteServiceImpl) WriteServiceFactory.getWriteService(WriteServiceImpl.class)).deleteObject(sql, name);
+    public int deleteObject(Pharmacist object) {
+        return ((PharmacistDao) app.getBean("phrdao")).delete("delete from Pharmacist where phonenumber=?", object.getPhoneNumber());
     }
 
     @Override
-    public int updateObject(String sql, Object... name) {
-        return ((WriteServiceImpl) WriteServiceFactory.getWriteService(WriteServiceImpl.class)).updateObject(sql, name);
+    public int updateObject(Pharmacist object) {
+        return 0;
     }
 
     @Override
-    public int insertObject(String sql, Object... name) {
-        return ((WriteServiceImpl) WriteServiceFactory.getWriteService(WriteServiceImpl.class)).insertObject(sql, name);
+    public int insertObject(Pharmacist object) {
+        return ((PharmacistDao) app.getBean("phrdao")).insertInfo("insert into Pharmacist values(?,?)",
+                object.getName(), object.getPhoneNumber());
     }
 
     /**
      * 添加药剂师
      *
-     * @param number
-     * @param name
+     * @param pharmacist
      * @return
      */
-    public int insertPharmacist(String number, String name) {
-        return insertObject("insert into Pharmacist values(?,?)", number, name);
+    public int insertPharmacist(Pharmacist pharmacist) {
+        return insertObject(pharmacist);
     }
 
     /**
      * 删除药剂师
      *
-     * @param number
+     * @param pharmacist
      * @return
      */
-    public int deletePharmacist(String number) {
-        return deleteObject("delete from Pharmacist where phonenumber=?", number);
+    public int deletePharmacist(Pharmacist pharmacist) {
+        return deleteObject(pharmacist);
     }
 
 }

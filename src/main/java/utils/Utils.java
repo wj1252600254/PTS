@@ -2,6 +2,9 @@ package utils;
 
 
 import com.alibaba.druid.pool.DruidDataSourceFactory;
+import domain.Prescription;
+import domain.User;
+import org.omg.CORBA.StringHolder;
 
 import javax.sql.DataSource;
 import java.io.Closeable;
@@ -51,6 +54,14 @@ public class Utils {
         return arrayList;
     }
 
+    public static String Array2String(ArrayList<String> arrayList, String deli) {
+        String str = "";
+        for (String s : arrayList) {
+            str += s + deli;
+        }
+        return str.substring(0, str.length() - 1);
+    }
+
     /**
      * String转化为Date
      *
@@ -67,6 +78,38 @@ public class Utils {
             e.printStackTrace();
         }
         return date;
+    }
+
+    /**
+     * Date转化为String
+     *
+     * @param time
+     * @return
+     */
+    public static String date2String(Date time) {
+        String date = null;
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        date = simpleDateFormat.format(time);
+        return date;
+    }
+
+
+    /**
+     * 查找处方订单用户的电话
+     *
+     * @param arrayList
+     * @param id
+     * @return
+     */
+    public static String findUserNumber(ArrayList<User> arrayList, String id) {
+        for (User user : arrayList) {
+            for (Prescription pre : user.getHistory()) {
+                if (pre.getId().equalsIgnoreCase(id)) {
+                    return user.getPhoneNumber();
+                }
+            }
+        }
+        return null;
     }
 
     /**
@@ -128,6 +171,7 @@ public class Utils {
 
     /**
      * 关闭继承Closeable的类
+     *
      * @param args
      */
     public static void close(Closeable... args) {

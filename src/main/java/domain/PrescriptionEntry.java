@@ -5,6 +5,9 @@ public class PrescriptionEntry {
     private Prescription prescription;
     private Drug drug;
 
+    public PrescriptionEntry() {
+    }
+
 
     public PrescriptionEntry(int number, Prescription prescription, Drug drug) {
         this.setNumber(number);

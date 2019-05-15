@@ -8,7 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public abstract class Dao {
+public interface Dao {
     /**
      * 添加记录
      *
@@ -16,7 +16,7 @@ public abstract class Dao {
      * @param args
      * @return
      */
-    public int insertInfo(String sql, Object... args) {
+    default int insertInfo(String sql, Object... args) {
         int res = 0;
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -43,7 +43,7 @@ public abstract class Dao {
      * @param args
      * @return
      */
-    public int update(String sql, Object... args) {
+    default int update(String sql, Object... args) {
         return insertInfo(sql, args);
     }
 
@@ -54,7 +54,7 @@ public abstract class Dao {
      * @param args
      * @return
      */
-    public int delete(String sql, Object... args) {
+    default int delete(String sql, Object... args) {
         int res = 0;
         Connection connection = null;
         PreparedStatement preparedStatement = null;

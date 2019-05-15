@@ -10,8 +10,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-@AutoService(Dao.class)
-public class PharmacistDao extends Dao {
+//@AutoService(Dao.class)
+public class PharmacistDao implements Dao {
 
 
     @Override

@@ -8,11 +8,11 @@ import domain.Pharmacist;
 
 import java.util.ArrayList;
 
-@AutoService(ReadService.class)
+//@AutoService(ReadService.class)
 public class PharmacistReadService implements ReadService {
     @Override
     public Pharmacist queryObject(String sql, Object... args) {
-        PharmacistDao pharmacistDao = (PharmacistDao) DaoFactory.getDao(PharmacistDao.class);
+        PharmacistDao pharmacistDao = (PharmacistDao) app.getBean("phrdao");
         PharmacistDO pharmacistDO = pharmacistDao.queryObject(sql, args);
         if (pharmacistDO != null) {
             return new Pharmacist(pharmacistDO.getName(), pharmacistDO.getPhonenumber());
@@ -25,7 +25,7 @@ public class PharmacistReadService implements ReadService {
     @Override
     public ArrayList<Pharmacist> queryObjectList(String sql, Object... args) {
         ArrayList<Pharmacist> arrayList = new ArrayList<>();
-        PharmacistDao pharmacistDao = (PharmacistDao) DaoFactory.getDao(PharmacistDao.class);
+        PharmacistDao pharmacistDao = (PharmacistDao) app.getBean("phrdao");
         ArrayList<PharmacistDO> pharmacistDOS = pharmacistDao.queryObjectList(sql, args);
         if (pharmacistDOS != null) {
             for (PharmacistDO t : pharmacistDOS) {

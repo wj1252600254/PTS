@@ -1,7 +1,10 @@
 package view;
 
 
+import com.sjtu.factory.AppContainer;
+import domain.*;
 import service.*;
+import utils.Utils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -28,7 +31,7 @@ public class DBManagerSystem {
     private JList<String> jList2;
     private String content;
 
-    public void show(DefaultListModel model1, DefaultListModel model2) {
+    public void show(AppContainer appContainer, DefaultListModel model1, DefaultListModel model2) {
         frame = new JFrame("数据库管理系统");
         Container container = frame.getContentPane();
 
@@ -94,7 +97,7 @@ public class DBManagerSystem {
                     JScrollPane jScrollPane = new JScrollPane(jTextArea);
                     container1.add(jScrollPane);
                     content = jList1.getSelectedValue();
-                    jTextArea.setText(((UserReadService) ReadServiceFactory.getReadService(UserReadService.class)).displayUser(content));
+                    jTextArea.setText(((UserReadService) appContainer.getBean("usrres")).displayUser(content));
                     jDialog.setVisible(true);
                 }
             }
@@ -113,7 +116,7 @@ public class DBManagerSystem {
                     JScrollPane jScrollPane = new JScrollPane(jTextArea);
                     container1.add(jScrollPane);
                     content = jList2.getSelectedValue();
-                    jTextArea.setText(((DrugReadService) ReadServiceFactory.getReadService(DrugReadService.class)).dispalyDrug(content));
+                    jTextArea.setText(((DrugReadService) appContainer.getBean("drures")).dispalyDrug(content));
                     jDialog.setVisible(true);
                 }
             }
@@ -184,8 +187,13 @@ public class DBManagerSystem {
                 jb1.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        int isSuccess = ((UserWriteService) WriteServiceFactory.getWriteService(UserWriteService.class)).insertUser(jt2.getText().trim(), jt1.getText().trim(),
-                                jt3.getText().trim(), jt4.getText().trim(), jt7.getText().trim());
+                        User user = new User();
+                        user.setPhoneNumber(jt2.getText().trim());
+                        user.setName(jt1.getText().trim());
+                        user.setBirthday(Utils.string2Date(jt3.getText().trim()));
+                        user.setInsuranceCompany(jt4.getText().trim());
+                        user.setInsuranceNumber(jt7.getText().trim());
+                        int isSuccess = ((UserWriteService) appContainer.getBean("usrwrs")).insertUser(user);
                         JOptionPane.showMessageDialog(jDialog, isSuccess > 0 ? "添加成功！" : "添加失败");
                         if (isSuccess > 0) {
                             model1.addElement(jt2.getText().trim());
@@ -195,7 +203,9 @@ public class DBManagerSystem {
                 jb2.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        int isSuccess = ((UserWriteService) WriteServiceFactory.getWriteService(UserWriteService.class)).deleteUser(jt6.getText().trim());
+                        User user = new User();
+                        user.setPhoneNumber(jt6.getText().trim());
+                        int isSuccess = ((UserWriteService) appContainer.getBean("usrwrs")).deleteUser(user);
                         JOptionPane.showMessageDialog(jDialog, isSuccess > 0 ? "删除成功！" : "删除失败");
                         if (isSuccess > 0) {
                             model1.removeElement(jt6.getText().trim());
@@ -288,15 +298,24 @@ public class DBManagerSystem {
                 jb1.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        int isSuccess = ((PrescriptionWriteService) WriteServiceFactory.getWriteService(PrescriptionWriteService.class)).insertPrescription(jt1.getText().trim(), jt2.getText().trim(),
-                                jt3.getText().trim(), jt4.getText().trim(), jt5.getText().trim(), Integer.valueOf(jt6.getText().trim()));
+                        Prescription prescription = new Prescription();
+                        prescription.setId(jt1.getText().trim());
+                        prescription.setStart(Utils.string2Date(jt4.getText().trim()));
+                        prescription.setEnd(Utils.string2Date(jt5.getText().trim()));
+                        prescription.setNumber(Integer.valueOf(jt6.getText().trim()));
+                        Pharmacist pharmacist = new Pharmacist();
+                        pharmacist.setPhoneNumber(jt3.getText().trim());
+                        prescription.setPharmacist(pharmacist);
+                        int isSuccess = ((PrescriptionWriteService) appContainer.getBean("prewrs")).insertPrescription(prescription);
                         JOptionPane.showMessageDialog(jDialog, isSuccess > 0 ? "添加成功！" : "添加失败");
                     }
                 });
                 jb2.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        int isSuccess = ((PrescriptionWriteService) WriteServiceFactory.getWriteService(PrescriptionWriteService.class)).deletePrescription(jt9.getText().trim());
+                        Prescription prescription = new Prescription();
+                        prescription.setId(jt9.getText().trim());
+                        int isSuccess = ((PrescriptionWriteService) appContainer.getBean("prewrs")).deletePrescription(prescription);
                         JOptionPane.showMessageDialog(jDialog, isSuccess > 0 ? "删除成功！" : "删除失败");
                     }
                 });
@@ -337,7 +356,15 @@ public class DBManagerSystem {
                         jb11.addActionListener(new ActionListener() {
                             @Override
                             public void actionPerformed(ActionEvent e) {
-                                int isSuccess = ((PrescriptionEntryWriteService) WriteServiceFactory.getWriteService(PrescriptionEntryWriteService.class)).insertPrescriptionEntry(jt1.getText(), jt21.getText(), jt11.getText());
+                                PrescriptionEntry prescriptionEntry = new PrescriptionEntry();
+                                prescriptionEntry.setNumber(Integer.valueOf(jt21.getText()));
+                                Drug drug = new Drug();
+                                drug.setName(jt11.getText());
+                                Prescription prescription = new Prescription();
+                                prescription.setId(jt1.getText());
+                                prescriptionEntry.setDrug(drug);
+                                prescriptionEntry.setPrescription(prescription);
+                                int isSuccess = ((PrescriptionEntryWriteService) appContainer.getBean("entwrs")).insertPrescriptionEntry(prescriptionEntry);
                                 JOptionPane.showMessageDialog(jDialog, isSuccess > 0 ? "添加成功！" : "添加失败");
                             }
                         });
@@ -373,7 +400,14 @@ public class DBManagerSystem {
                         jb11.addActionListener(new ActionListener() {
                             @Override
                             public void actionPerformed(ActionEvent e) {
-                                int isSuccess = ((PrescriptionEntryWriteService) WriteServiceFactory.getWriteService(PrescriptionEntryWriteService.class)).deletePrescriptionEntry(jt1.getText(), jt11.getText());
+                                PrescriptionEntry prescriptionEntry = new PrescriptionEntry();
+                                Drug drug = new Drug();
+                                drug.setName(jt11.getText());
+                                Prescription prescription = new Prescription();
+                                prescription.setId(jt1.getText());
+                                prescriptionEntry.setDrug(drug);
+                                prescriptionEntry.setPrescription(prescription);
+                                int isSuccess = ((PrescriptionEntryWriteService) appContainer.getBean("entwrs")).deletePrescriptionEntry(prescriptionEntry);
                                 JOptionPane.showMessageDialog(jDialog, isSuccess > 0 ? "删除成功！" : "删除失败");
                             }
                         });
@@ -443,8 +477,9 @@ public class DBManagerSystem {
                 jb1.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        int isSuccess = ((DrugWriteService) WriteServiceFactory.getWriteService(DrugWriteService.class)).insertDrug(jt1.getText().trim(), jt2.getText().trim(),
-                                jt3.getText().trim(), jt4.getText().trim());
+                        Drug drug = new Drug(jt1.getText().trim(), jt2.getText().trim(), jt4.getText().trim());
+                        drug.setAlternatives(Utils.string2Array(jt3.getText().trim(), ","));
+                        int isSuccess = ((DrugWriteService) appContainer.getBean("druwrs")).insertDrug(drug);
                         JOptionPane.showMessageDialog(jDialog, isSuccess > 0 ? "添加成功！" : "添加失败");
                         if (isSuccess > 0) {
                             model2.addElement(jt1.getText().trim());
@@ -454,7 +489,9 @@ public class DBManagerSystem {
                 jb2.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        int isSuccess = ((DrugWriteService) WriteServiceFactory.getWriteService(DrugWriteService.class)).deleteDrug(jt6.getText().trim());
+                        Drug drug = new Drug();
+                        drug.setName(jt6.getText().trim());
+                        int isSuccess = ((DrugWriteService) appContainer.getBean("druwrs")).deleteDrug(drug);
                         JOptionPane.showMessageDialog(jDialog, isSuccess > 0 ? "删除成功！" : "删除失败");
                         if (isSuccess > 0) {
                             model2.removeElement(jt6.getText().trim());
@@ -508,14 +545,17 @@ public class DBManagerSystem {
                 jb1.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        int isSuccess = ((PharmacistWriteService) WriteServiceFactory.getWriteService(PharmacistWriteService.class)).insertPharmacist(jt1.getText().trim(), jt2.getText().trim());
+                        int isSuccess = ((PharmacistWriteService) appContainer.getBean("phrwrs")).insertPharmacist(new Pharmacist(jt2.getText().trim(), jt1.getText().trim()));
                         JOptionPane.showMessageDialog(jDialog, isSuccess > 0 ? "添加成功！" : "添加失败");
                     }
                 });
                 jb2.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        int isSuccess = ((PharmacistWriteService) WriteServiceFactory.getWriteService(PharmacistWriteService.class)).deletePharmacist(jt6.getText().trim());
+                        Pharmacist pharmacist = new Pharmacist();
+                        pharmacist.setPhoneNumber(jt6.getText().trim());
+                        int isSuccess = ((PharmacistWriteService) appContainer.getBean("phrwrs")).deletePharmacist(pharmacist);
+                        ;
                         JOptionPane.showMessageDialog(jDialog, isSuccess > 0 ? "删除成功！" : "删除失败");
                     }
                 });

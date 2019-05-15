@@ -1,47 +1,46 @@
 package service;
 
 import com.google.auto.service.AutoService;
+import dao.PrescriptionEntryDao;
+import domain.Prescription;
+import domain.PrescriptionEntry;
 
-@AutoService(WriteService.class)
-public class PrescriptionEntryWriteService implements WriteService {
-
-
+//@AutoService(WriteService.class)
+public class PrescriptionEntryWriteService implements WriteService<PrescriptionEntry> {
     @Override
-    public int deleteObject(String sql, Object... name) {
-
-        return ((WriteServiceImpl) WriteServiceFactory.getWriteService(WriteServiceImpl.class)).deleteObject(sql, name);
+    public int deleteObject(PrescriptionEntry object) {
+        return ((PrescriptionEntryDao) app.getBean("entdao")).delete("delete from PrescriptionEntry where pre_id=? and drug_name=?",
+                object.getPrescription().getId(), object.getDrug().getName());
     }
 
     @Override
-    public int updateObject(String sql, Object... name) {
-        return ((WriteServiceImpl) WriteServiceFactory.getWriteService(WriteServiceImpl.class)).updateObject(sql, name);
+    public int updateObject(PrescriptionEntry object) {
+        return 0;
     }
 
     @Override
-    public int insertObject(String sql, Object... name) {
-        return ((WriteServiceImpl) WriteServiceFactory.getWriteService(WriteServiceImpl.class)).insertObject(sql, name);
+    public int insertObject(PrescriptionEntry object) {
+        return ((PrescriptionEntryDao) app.getBean("entdao")).insertInfo("insert into PrescriptionEntry values(?,?,?)", object.getPrescription().getId(),
+                object.getNumber(), object.getDrug().getName());
     }
 
     /**
      * 添加明细
      *
-     * @param pre
-     * @param num
-     * @param drug
+     * @param prescriptionEntry
      * @return
      */
-    public int insertPrescriptionEntry(String pre, String num, String drug) {
-        return insertObject("insert into PrescriptionEntry values(?,?,?)", pre, num, drug);
+    public int insertPrescriptionEntry(PrescriptionEntry prescriptionEntry) {
+        return insertObject(prescriptionEntry);
     }
 
     /**
      * 删除明细
      *
-     * @param id
-     * @param name
+     * @param prescriptionEntry
      * @return
      */
-    public int deletePrescriptionEntry(String id, String name) {
-        return deleteObject("delete from PrescriptionEntry where pre_id=? and drug_name=?", id, name);
+    public int deletePrescriptionEntry(PrescriptionEntry prescriptionEntry) {
+        return deleteObject(prescriptionEntry);
     }
 }

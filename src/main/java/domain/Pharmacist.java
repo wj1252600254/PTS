@@ -2,6 +2,10 @@ package domain;
 
 public class Pharmacist extends Person {
 
+
+    public Pharmacist() {
+    }
+
     public Pharmacist(String name, String phoneNumber) {
         super(name, phoneNumber);
     }

@@ -23,7 +23,10 @@ public class User extends Person {
         for (Prescription n : history) {
             s += n.getId() + ",";
         }
-        return s;
+        return s.substring(0, s.length() - 1);
+    }
+
+    public User() {
     }
 
     public User(String name, String phonenumber, String date, String company, String insuranceNumber) {

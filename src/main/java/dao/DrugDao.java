@@ -9,8 +9,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-@AutoService(Dao.class)
-public class DrugDao extends Dao {
+//@AutoService(Dao.class)
+public class DrugDao implements Dao {
 
     /**
      * 查询单个Drug
