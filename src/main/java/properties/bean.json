@@ -1,0 +1,58 @@
+[
+  {
+    "id": "phrdao",
+    "class": "dao.PharmacistDao"
+  },
+  {
+    "id": "predao",
+    "class": "dao.PrescriptionDao"
+  },
+  {
+    "id": "entdao",
+    "class": "dao.PrescriptionEntryDao"
+  },
+  {
+    "id": "usrdao",
+    "class": "dao.UserDao"
+  },
+  {
+    "id": "drudao",
+    "class": "dao.DrugDao"
+  },
+  {
+    "id": "drures",
+    "class": "service.DrugReadService"
+  },
+  {
+    "id": "druwrs",
+    "class": "service.DrugWriteService"
+  },
+  {
+    "id": "phrres",
+    "class": "service.PharmacistReadService"
+  },
+  {
+    "id": "phrwrs",
+    "class": "service.PharmacistWriteService"
+  },
+  {
+    "id": "entwrs",
+    "class": "service.PrescriptionEntryWriteService"
+  },
+  {
+    "id": "preres",
+    "class": "service.PrescriptionReadService"
+  },
+  {
+    "id": "prewrs",
+    "class": "service.PrescriptionWriteService"
+  },
+  {
+    "id": "usrres",
+    "class": "service.UserReadService"
+  },
+  {
+    "id": "usrwrs",
+    "class": "service.UserWriteService"
+  }
+]
