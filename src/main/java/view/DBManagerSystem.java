@@ -306,8 +306,9 @@ public class DBManagerSystem {
                         Pharmacist pharmacist = new Pharmacist();
                         pharmacist.setPhoneNumber(jt3.getText().trim());
                         prescription.setPharmacist(pharmacist);
-                        int isSuccess = ((PrescriptionWriteService) appContainer.getBean("prewrs")).insertPrescription(prescription);
-                        JOptionPane.showMessageDialog(jDialog, isSuccess > 0 ? "添加成功！" : "添加失败");
+                        int isSuccess1 = ((PrescriptionWriteService) appContainer.getBean("prewrs")).insertPrescription(prescription);
+                        int is2 = ((PrescriptionWriteService) appContainer.getBean("prewrs")).updateObject(jt2.getText().trim(), jt1.getText().trim());
+                        JOptionPane.showMessageDialog(jDialog, isSuccess1 > 0 && is2 > 0 ? "添加成功！" : "添加失败");
                     }
                 });
                 jb2.addActionListener(new ActionListener() {

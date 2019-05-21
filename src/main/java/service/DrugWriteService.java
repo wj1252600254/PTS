@@ -14,7 +14,7 @@ public class DrugWriteService implements WriteService<Drug> {
     }
 
     @Override
-    public int updateObject(Drug object) {
+    public int updateObject(Object... object) {
         return 0;
     }
 

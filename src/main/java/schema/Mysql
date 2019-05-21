@@ -16,17 +16,6 @@ phonenumber varchar(16) primary key,
 name varchar(16)
 );
 
-
-
-
-//创建处方明细表
-create table PrescriptionEntry(
-pre_id varchar(16),
-number int,
-drug_name varchar(16)
-);
-alter table PrescriptionEntry add foreign key(pre_id) references Prescription(id) on delete cascade;
-
 //创建处方表
 create table Prescription(
 id varchar(16) primary key,
@@ -34,9 +23,22 @@ phonenumber_user varchar(16),
 phonenumber_phr varchar(16),
 start varchar(12),
 end varchar(12),
-number int
+number int,
+foreign key(phonenumber_user) references User(phonenumber) on delete cascade
 );
 alter table Prescription add foreign key(phonenumber_user) references User(phonenumber) on delete cascade;
+
+
+//创建处方明细表
+create table PrescriptionEntry(
+pre_id varchar(16),
+number int,
+drug_name varchar(16),
+foreign key(pre_id) references Prescription(id) on delete cascade
+);
+alter table PrescriptionEntry add foreign key(pre_id) references Prescription(id) on delete cascade;
+
+
 
 
 //创建药物表

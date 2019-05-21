@@ -14,7 +14,7 @@ public class PharmacistWriteService implements WriteService<Pharmacist> {
     }
 
     @Override
-    public int updateObject(Pharmacist object) {
+    public int updateObject(Object... object) {
         return 0;
     }
 

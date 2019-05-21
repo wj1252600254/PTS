@@ -13,9 +13,8 @@ public class UserWriteService implements WriteService<User> {
     }
 
     @Override
-    public int updateObject(User object) {
-        //暂时不实现
-//        return ((UserDao) app.getBean("usrdao")).update("update User set phonenumber=? where phonenumber=?", object.getPhoneNumber(),
+    public int updateObject(Object... object) {
+//        return ((UserDao) app.getBean("usrdao")).update("update User set =? where phonenumber=?", object.getPhoneNumber(),
 //                object.getName(), object.getBirthday(), object.getInsuranceNumber());
         return 0;
     }

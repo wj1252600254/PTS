@@ -14,7 +14,7 @@ public class PrescriptionEntryWriteService implements WriteService<PrescriptionE
     }
 
     @Override
-    public int updateObject(PrescriptionEntry object) {
+    public int updateObject(Object... object) {
         return 0;
     }
 
