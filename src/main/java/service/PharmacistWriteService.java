@@ -9,8 +9,8 @@ public class PharmacistWriteService implements WriteService<Pharmacist> {
 
 
     @Override
-    public int deleteObject(Pharmacist object) {
-        return ((PharmacistDao) app.getBean("phrdao")).delete("delete from Pharmacist where phonenumber=?", object.getPhoneNumber());
+    public int deleteObject(String... object) {
+        return ((PharmacistDao) app.getBean("phrdao")).delete("delete from Pharmacist where phonenumber=?", object);
     }
 
     @Override
@@ -40,7 +40,7 @@ public class PharmacistWriteService implements WriteService<Pharmacist> {
      * @param pharmacist
      * @return
      */
-    public int deletePharmacist(Pharmacist pharmacist) {
+    public int deletePharmacist(String pharmacist) {
         return deleteObject(pharmacist);
     }
 

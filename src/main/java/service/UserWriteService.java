@@ -8,8 +8,8 @@ import utils.Utils;
 //@AutoService(WriteService.class)
 public class UserWriteService implements WriteService<User> {
     @Override
-    public int deleteObject(User object) {
-        return ((UserDao) app.getBean("usrdao")).delete("delete from User where phonenumber=?", object.getPhoneNumber());
+    public int deleteObject(String... object) {
+        return ((UserDao) app.getBean("usrdao")).delete("delete from User where phonenumber=?", object);
     }
 
     @Override
@@ -41,7 +41,7 @@ public class UserWriteService implements WriteService<User> {
      *
      * @param user
      */
-    public int deleteUser(User user) {
+    public int deleteUser(String user) {
         return deleteObject(user);
     }
 }

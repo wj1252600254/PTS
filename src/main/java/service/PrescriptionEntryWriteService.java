@@ -8,9 +8,9 @@ import domain.PrescriptionEntry;
 //@AutoService(WriteService.class)
 public class PrescriptionEntryWriteService implements WriteService<PrescriptionEntry> {
     @Override
-    public int deleteObject(PrescriptionEntry object) {
+    public int deleteObject(String... object) {
         return ((PrescriptionEntryDao) app.getBean("entdao")).delete("delete from PrescriptionEntry where pre_id=? and drug_name=?",
-                object.getPrescription().getId(), object.getDrug().getName());
+                object);
     }
 
     @Override
@@ -40,7 +40,7 @@ public class PrescriptionEntryWriteService implements WriteService<PrescriptionE
      * @param prescriptionEntry
      * @return
      */
-    public int deletePrescriptionEntry(PrescriptionEntry prescriptionEntry) {
+    public int deletePrescriptionEntry(String... prescriptionEntry) {
         return deleteObject(prescriptionEntry);
     }
 }

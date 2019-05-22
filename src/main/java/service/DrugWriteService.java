@@ -9,8 +9,8 @@ import utils.Utils;
 //@AutoService(WriteService.class)
 public class DrugWriteService implements WriteService<Drug> {
     @Override
-    public int deleteObject(Drug object) {
-        return ((DrugDao) app.getBean("drudao")).delete("delete from Drug where name=?", object.getName());
+    public int deleteObject(String... object) {
+        return ((DrugDao) app.getBean("drudao")).delete("delete from Drug where name=?", object);
     }
 
     @Override
@@ -40,7 +40,7 @@ public class DrugWriteService implements WriteService<Drug> {
      * @param drug
      * @return
      */
-    public int deleteDrug(Drug drug) {
+    public int deleteDrug(String... drug) {
         return deleteObject(drug);
     }
 

@@ -203,9 +203,7 @@ public class DBManagerSystem {
                 jb2.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        User user = new User();
-                        user.setPhoneNumber(jt6.getText().trim());
-                        int isSuccess = ((UserWriteService) appContainer.getBean("usrwrs")).deleteUser(user);
+                        int isSuccess = ((UserWriteService) appContainer.getBean("usrwrs")).deleteUser(jt6.getText().trim());
                         JOptionPane.showMessageDialog(jDialog, isSuccess > 0 ? "删除成功！" : "删除失败");
                         if (isSuccess > 0) {
                             model1.removeElement(jt6.getText().trim());
@@ -314,9 +312,7 @@ public class DBManagerSystem {
                 jb2.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        Prescription prescription = new Prescription();
-                        prescription.setId(jt9.getText().trim());
-                        int isSuccess = ((PrescriptionWriteService) appContainer.getBean("prewrs")).deletePrescription(prescription);
+                        int isSuccess = ((PrescriptionWriteService) appContainer.getBean("prewrs")).deletePrescription(jt9.getText().trim());
                         JOptionPane.showMessageDialog(jDialog, isSuccess > 0 ? "删除成功！" : "删除失败");
                     }
                 });
@@ -401,14 +397,7 @@ public class DBManagerSystem {
                         jb11.addActionListener(new ActionListener() {
                             @Override
                             public void actionPerformed(ActionEvent e) {
-                                PrescriptionEntry prescriptionEntry = new PrescriptionEntry();
-                                Drug drug = new Drug();
-                                drug.setName(jt11.getText());
-                                Prescription prescription = new Prescription();
-                                prescription.setId(jt1.getText());
-                                prescriptionEntry.setDrug(drug);
-                                prescriptionEntry.setPrescription(prescription);
-                                int isSuccess = ((PrescriptionEntryWriteService) appContainer.getBean("entwrs")).deletePrescriptionEntry(prescriptionEntry);
+                                int isSuccess = ((PrescriptionEntryWriteService) appContainer.getBean("entwrs")).deletePrescriptionEntry(jt1.getText(), jt11.getText());
                                 JOptionPane.showMessageDialog(jDialog, isSuccess > 0 ? "删除成功！" : "删除失败");
                             }
                         });
@@ -490,9 +479,7 @@ public class DBManagerSystem {
                 jb2.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        Drug drug = new Drug();
-                        drug.setName(jt6.getText().trim());
-                        int isSuccess = ((DrugWriteService) appContainer.getBean("druwrs")).deleteDrug(drug);
+                        int isSuccess = ((DrugWriteService) appContainer.getBean("druwrs")).deleteDrug(jt6.getText().trim());
                         JOptionPane.showMessageDialog(jDialog, isSuccess > 0 ? "删除成功！" : "删除失败");
                         if (isSuccess > 0) {
                             model2.removeElement(jt6.getText().trim());
@@ -553,9 +540,7 @@ public class DBManagerSystem {
                 jb2.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        Pharmacist pharmacist = new Pharmacist();
-                        pharmacist.setPhoneNumber(jt6.getText().trim());
-                        int isSuccess = ((PharmacistWriteService) appContainer.getBean("phrwrs")).deletePharmacist(pharmacist);
+                        int isSuccess = ((PharmacistWriteService) appContainer.getBean("phrwrs")).deletePharmacist(jt6.getText().trim());
                         ;
                         JOptionPane.showMessageDialog(jDialog, isSuccess > 0 ? "删除成功！" : "删除失败");
                     }

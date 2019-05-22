@@ -107,7 +107,8 @@ public class Drug {
         for (String drug : alternatives) {
             s += drug + ",";
         }
-        s += "药物副作用：" + this.getSideEffect();
+        s = s.substring(0, s.length() - 1);
+        s += System.getProperty("line.separator") + "药物副作用：" + this.getSideEffect();
         return s;
     }
 }
