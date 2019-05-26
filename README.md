@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/wj1252600254/PTS.svg?branch=master)](https://travis-ci.org/wj1252600254/PTS)
 # Beginning Java Objects PTS
 <h1>背景</h1>
 <img src="img/1.JPG">
